@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>早飲みゲーム特設WEBサイト</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🐎 早飲みゲーム 🐎</h1>
+        <nav>
+            <button id="showRaceCard" class="nav-btn active">出走表</button>
+            <button id="showVoting" class="nav-btn">3連単投票</button>
+            <button id="showResults" class="nav-btn">投票結果</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- 出走表セクション -->
+        <section id="raceCardSection" class="section active">
+            <h2>オリエンタルホテル記念 出走表</h2>
+            <div class="race-card-container">
+                <img src="image/出走表.jpg" alt="出走表" class="race-card-image">
+            </div>
+        </section>
+
+        <!-- 投票セクション -->
+        <section id="votingSection" class="section">
+            <h2>3連単投票</h2>
+            <div class="voting-container">                
+                <div class="voting-form">
+                    <h3>3連単予想</h3>
+                    <div class="voting-notice">
+                        <p><strong>⚠️ 注意点：投票は1人1回まで</strong></p>
+                        <p><strong>📝 投票用紙にも記載してください</strong></p>
+                    </div>
+                    <div class="prediction">
+                        <div class="position">
+                            <label>1着:</label>
+                            <select id="first" class="horse-select">
+                                <option value="">選択してください</option>
+                            </select>
+                        </div>
+                        <div class="position">
+                            <label>2着:</label>
+                            <select id="second" class="horse-select">
+                                <option value="">選択してください</option>
+                            </select>
+                        </div>
+                        <div class="position">
+                            <label>3着:</label>
+                            <select id="third" class="horse-select">
+                                <option value="">選択してください</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button id="submitVote" class="submit-btn">投票する</button>
+                    <div id="voteMessage" class="message"></div>
+                </div>
+                <div class="horse-list">
+                    <h3>出走馬一覧</h3>
+                    <div id="horseList" class="horses"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 結果セクション -->
+        <section id="resultsSection" class="section">
+            <h2>投票集計結果</h2>
+            <div class="results-container">
+                <div class="vote-summary">
+                    <h3>総投票数: <span id="totalVotes">0</span>票</h3>
+                </div>
+                <div class="results-table">
+                    <h3>3連単投票結果</h3>
+                    <div id="voteResults" class="vote-results"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
