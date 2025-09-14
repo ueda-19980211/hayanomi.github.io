@@ -50,24 +50,6 @@ function validateSupabaseConfig() {
     return true;
 }
 
-// .envファイルから自動設定する関数（開発用）
-function autoSetupFromEnv() {
-    // .envファイルの値（開発環境用）
-    const envValues = {
-        url: 'https://khchxqlkflnfrjfmidtt.supabase.co',
-        anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoY2h4cWxrZmxuZnJqZm1pZHR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NjQxMjMsImV4cCI6MjA3MzI0MDEyM30.Uvw4bGpER36lSjYUhwu6bnPE7TvL835uQ-6tJkKwIpg'
-    };
-    
-    // ローカルストレージに既存の設定がない場合のみ自動設定
-    if (!localStorage.getItem('SUPABASE_URL') || !localStorage.getItem('SUPABASE_ANON_KEY')) {
-        localStorage.setItem('SUPABASE_URL', envValues.url);
-        localStorage.setItem('SUPABASE_ANON_KEY', envValues.anonKey);
-        console.log('🔧 .envファイルの値を自動設定しました');
-        return true;
-    }
-    return false;
-}
-
 // 環境変数をローカルストレージに設定するヘルパー関数（開発用）
 function setSupabaseEnvVars(url, anonKey) {
     if (typeof window !== 'undefined') {
@@ -94,9 +76,6 @@ let supabase = null;
 
 function initializeSupabase() {
     try {
-        // .envファイルから自動設定を試行
-        autoSetupFromEnv();
-        
         // 設定を再読み込み（動的に変更された場合に対応）
         SUPABASE_CONFIG = null; // キャッシュをクリア
         const config = getSupabaseConfiguration();
