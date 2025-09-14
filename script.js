@@ -33,6 +33,7 @@ const submitVoteBtn = document.getElementById('submitVote');
 const voteMessage = document.getElementById('voteMessage');
 const totalVotes = document.getElementById('totalVotes');
 const voteResults = document.getElementById('voteResults');
+const refreshResultsBtn = document.getElementById('refreshResults');
 
 // 初期化
 document.addEventListener('DOMContentLoaded', function() {
@@ -61,6 +62,9 @@ function initializeApp() {
     firstSelect.addEventListener('change', validateSelections);
     secondSelect.addEventListener('change', validateSelections);
     thirdSelect.addEventListener('change', validateSelections);
+    
+    // 結果更新ボタンのイベントリスナー
+    refreshResultsBtn.addEventListener('click', refreshResults);
     
     // データを読み込み（Supabaseまたはローカルストレージから）
     loadVotesData();
@@ -377,3 +381,52 @@ async function saveVoteToSupabase(vote) {
 //         console.log(`✅ ローカルストレージから${votes.length}件の投票データを取得しました`);
 //     }
 // }
+
+// 結果を手動で更新する関数
+async function refreshResults() {
+    const btnIcon = refreshResultsBtn.querySelector('.btn-icon');
+    const btnText = refreshResultsBtn.querySelector('.btn-text');
+    
+    // ボタンを無効にして重複実行を防ぐ
+    refreshResultsBtn.disabled = true;
+    refreshResultsBtn.classList.add('loading');
+    btnText.textContent = '更新中...';
+    
+    try {
+        // 最新データを取得
+        await loadVotesData();
+        
+        // 成功状態に変更
+        refreshResultsBtn.classList.remove('loading');
+        refreshResultsBtn.classList.add('success');
+        btnIcon.textContent = '✅';
+        btnText.textContent = '更新完了';
+        
+        setTimeout(() => {
+            // 元の状態に戻す
+            refreshResultsBtn.classList.remove('success');
+            btnIcon.textContent = '🔄';
+            btnText.textContent = '結果を更新';
+            refreshResultsBtn.disabled = false;
+        }, 1500);
+        
+        console.log('✅ 投票結果を手動更新しました');
+    } catch (error) {
+        console.error('❌ 結果更新エラー:', error);
+        
+        // エラー状態に変更
+        refreshResultsBtn.classList.remove('loading');
+        refreshResultsBtn.classList.add('error');
+        btnIcon.textContent = '❌';
+        btnText.textContent = '更新失敗';
+        
+        setTimeout(() => {
+            // 元の状態に戻す
+            refreshResultsBtn.classList.remove('error');
+            btnIcon.textContent = '🔄';
+            btnText.textContent = '結果を更新';
+            refreshResultsBtn.disabled = false;
+        }, 2000);
+    }
+}
+
